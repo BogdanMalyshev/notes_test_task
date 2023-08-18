@@ -1,0 +1,1 @@
+export { NotesListModule } from "./NotesListModule";
