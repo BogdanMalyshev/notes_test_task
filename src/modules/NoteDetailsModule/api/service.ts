@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { db } from "api";
 import { Note } from "models/notes";
 
@@ -12,6 +12,10 @@ class NoteDetailsService {
 
   public async updateNote(note: Note): Promise<void> {
     await setDoc(doc(db, "notes", note.id), note);
+  }
+
+  public async deleteNoteById(noteId: string): Promise<void> {
+    return await deleteDoc(doc(db, "notes", noteId));
   }
 }
 

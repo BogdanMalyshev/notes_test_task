@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Skeleton } from "@mui/material";
 import { Note } from "models/notes";
-import { NotesListItem } from "../NotesListItem";
+import { NotesListItemContainer } from "../NotesListItem";
 
 type NotesListProps = {
   notes: Note[];
@@ -20,7 +20,7 @@ export const NotesList = (props: NotesListProps) => {
   const notesList = notes.map((note) => {
     return (
       <Grid key={note.id} item xs={12}>
-        <NotesListItem key={note.id} note={note} />
+        <NotesListItemContainer key={note.id} note={note} />
       </Grid>
     );
   });

@@ -1,1 +1,0 @@
-export { NotesListItem } from "./NotesListItem";

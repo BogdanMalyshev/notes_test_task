@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppBar, Button, Toolbar } from "@mui/material";
+import { AppBar, Box, Button, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { routes } from "router/routes";
 import { Note } from "models/notes";
@@ -14,10 +14,11 @@ enum ModeEnum {
 type NoteDetailsProps = {
   note: Note;
   onUpdateNote: (note: Note) => Promise<void>;
+  onDeleteNote: (noteId: string) => Promise<void>;
 };
 
 export const NoteDetails = (props: NoteDetailsProps) => {
-  const { note, ...otherProps } = props;
+  const { note, onDeleteNote, ...otherProps } = props;
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<ModeEnum>(ModeEnum.view);
@@ -27,8 +28,12 @@ export const NoteDetails = (props: NoteDetailsProps) => {
     setMode(ModeEnum.view);
   };
 
-  const handleEditButtonClick = () => {
+  const handleEdit = () => {
     setMode(ModeEnum.edit);
+  };
+
+  const handleDelete = () => {
+    onDeleteNote(note.id);
   };
 
   const handleNavigateToList = () => {
@@ -38,15 +43,26 @@ export const NoteDetails = (props: NoteDetailsProps) => {
   return (
     <>
       <AppBar position="relative" sx={{ marginBottom: "2rem" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Button color="inherit" onClick={handleNavigateToList}>
-            Notes list
-          </Button>
-          {mode === ModeEnum.view && (
-            <Button variant="outlined" color="inherit" onClick={handleEditButtonClick}>
-              Edit
+        <Toolbar sx={{ justifyContent: "space-between " }}>
+          <Box>
+            <Button color="inherit" onClick={handleNavigateToList}>
+              Notes list
             </Button>
-          )}
+          </Box>
+          <Box>
+            {mode === ModeEnum.view && (
+              <Button variant="outlined" color="inherit" onClick={handleEdit}>
+                Edit
+              </Button>
+            )}
+            <Button
+              sx={{ marginLeft: "1rem" }}
+              variant="outlined"
+              color="inherit"
+              onClick={handleDelete}>
+              Delete
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
       {mode === ModeEnum.view && <NoteDetailsView note={note} />}
